@@ -1,41 +1,48 @@
 const express = require("express");
+const mongoose = require("mongoose");
 const cors = require("cors");
-const { v4: uuidv4 } = require("uuid");
 
 const app = express();
-const PORT = process.env.PORT || 3000;
-
 app.use(cors());
 app.use(express.json());
+app.use(express.static("public")); // If serving static HTML/CSS/JS
 
-let journalEntries = [];
+// MongoDB setup
+mongoose
+  .connect("mongodb+srv://<username>:<password>@cluster0.mongodb.net/journalDB", {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  })
+  .then(() => console.log("MongoDB Connected"))
+  .catch(err => console.error(err));
 
-// GET all journal entries
-app.get("/api/journals", (req, res) => {
-  res.json(journalEntries);
+// Mongoose schema/model
+const journalSchema = new mongoose.Schema({
+  mood: String,
+  text: String,
+  createdAt: {
+    type: Date,
+    default: Date.now
+  }
+});
+const Journal = mongoose.model("Journal", journalSchema);
+
+// Routes
+app.post("/api/journals", async (req, res) => {
+  const entry = new Journal(req.body);
+  const saved = await entry.save();
+  res.json(saved);
 });
 
-// POST a new journal entry
-app.post("/api/journals", (req, res) => {
-  const { mood, entry } = req.body;
-  const newEntry = {
-    _id: uuidv4(),
-    mood,
-    entry,
-    date: new Date().toISOString(),
-  };
-  journalEntries.push(newEntry);
-  res.status(201).json(newEntry);
+app.get("/api/journals", async (req, res) => {
+  const journals = await Journal.find().sort({ createdAt: -1 });
+  res.json(journals);
 });
 
-// DELETE an entry
-app.delete("/api/journals/:id", (req, res) => {
-  const { id } = req.params;
-  journalEntries = journalEntries.filter((e) => e._id !== id);
-  res.json({ message: "Deleted successfully" });
+app.delete("/api/journals/:id", async (req, res) => {
+  await Journal.findByIdAndDelete(req.params.id);
+  res.json({ message: "Deleted" });
 });
 
-// Start server
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
