@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Daily Journal</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bitcount+Single:wght@100..900&family=Dancing+Script:wght@400..700&family=Playwrite+AU+QLD:wght@100..400&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <h1>Ink Your Thoughts, Free Your Mind...!</h1>
+    <div class="journal-container">
+      <h2 class="section-title">How are you feeling today?</h2>
+      <select id="mood">
+        <option disabled selected>Select your mood</option>
+        <option>Happy</option>
+        <option>Sad</option>
+        <option>Excited</option>
+        <option>Angry</option>
+        <option>Calm</option>
+      </select>
+
+      <h3 class="entry-label">Enter your journal</h3>
+      <textarea id="entry" placeholder="Your journal entry"></textarea>
+
+      <button onclick="submitJournal()">Save Entry</button>
+    </div>
+
+    <div id="journalList"></div>
+
+    <script src="script.js"></script>
+    <script>
+      function submitJournal() {
+        const mood = document.querySelector("select").value;
+        const journal = document.querySelector("textarea").value;
+
+        fetch("https://your-username--your-project-id.codesandbox.io/journal", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            mood: mood,
+            text: journal,
+          }),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            alert("Journal entry submitted!");
+            console.log(data);
+          })
+          .catch((error) => {
+            console.error("Error submitting journal:", error);
+          });
+      }
+
+      // Optional: Auto-fetch all previous entries
+      function fetchAllEntries() {
+        fetch("https://journal-backend.onrender.com/api/journals")
+          .then((res) => res.json())
+          .then((entries) => {
+            console.log("All entries:", entries);
+            // You can display them in the DOM if needed
+          });
+      }
+      <canvas id="moodChart"></canvas>;
+
+      // Call this if you want entries to load automatically
+      // fetchAllEntries();
+    </script>
+  </body>
+</html>
