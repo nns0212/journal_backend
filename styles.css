@@ -1,0 +1,111 @@
+/* Dancing Script font class */
+.dancing-script {
+  font-family: "Dancing Script", cursive;
+  font-optical-sizing: auto;
+  font-weight: 400; /* Replace <weight> */
+  font-style: normal;
+}
+
+/* Body styling */
+body {
+  font-family: "Dancing Script", cursive;
+  padding: 20px;
+  background: linear-gradient(rgba(92, 89, 116, 0.8), rgba(92, 89, 116, 0.8)),
+    url("morning_pages_resized_2000x.jpg"); /* Fixed path: remove backslash */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+  color: rgb(14, 13, 13);
+}
+
+/* Journal box */
+.journal-container {
+  max-width: 600px;
+  margin: auto;
+  text-align: center;
+  background-color: rgba(255, 255, 255, 0.15);
+  padding: 30px;
+  border-radius: 20px;
+  backdrop-filter: blur(4px);
+}
+
+/* Section headings */
+.section-title {
+  font-size: 28px;
+  margin-bottom: 15px;
+  font-weight: bold;
+  color: #fff;
+}
+
+/* Label for each section */
+.entry-label {
+  font-size: 30px;
+  margin-top: 30px;
+  margin-bottom: 10px;
+  font-style: italic;
+  color: #ebe1e1;
+}
+
+/* Input fields */
+select,
+textarea {
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  font-size: 16px;
+  font-family: "Playwrite AU QLD", sans-serif;
+  box-shadow: 0 2px 6px rgba(105, 2, 2, 0.2);
+  margin-bottom: 20px;
+  color: rgb(0, 0, 0); /* Ensures input text appears gray */
+  background-color: #ffffffaa;
+}
+
+/* Placeholder text styling */
+textarea::placeholder,
+select:invalid {
+  color: rgb(0, 0, 0);
+  opacity: 1;
+}
+
+/* Ensure dropdown has gray placeholder text */
+select option[value=""][disabled] {
+  display: none;
+}
+
+/* Textarea behavior */
+textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+/* Button styling */
+button {
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 10px;
+  background-color: #ffffffcc;
+  color: #333;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  margin-top: 10px;
+}
+
+button:hover {
+  background-color: #949393;
+}
+
+/* Journal entries display */
+.entry {
+  background: white;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-left: 5px solid #007acc;
+}
+
+/* Form spacing */
+form {
+  margin-bottom: 20px;
+}
